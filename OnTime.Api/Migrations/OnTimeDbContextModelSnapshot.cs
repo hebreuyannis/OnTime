@@ -41,7 +41,7 @@ namespace OnTime.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointment");
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("OnTime.Domain.User.User", b =>
