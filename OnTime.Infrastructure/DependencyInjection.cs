@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OnTime.Application.Common.Interfaces;
+using OnTime.Infrastructure.Appointments.Persistence;
 using OnTime.Infrastructure.Common.Persistence;
 
 namespace OnTime.Infrastructure;
@@ -18,6 +20,8 @@ public static partial class DependencyInjection
     private static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         services.AddDbContext<OnTimeDbContext>(options => options.UseSqlite("Data Source = OnTime.sqlite", m => m.MigrationsAssembly("OnTime.Api")));
+
+        services.AddScoped<IAppointmentsRepository, AppointmentsRepository>();
 
         return services;
     }
