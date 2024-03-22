@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\OnTime.Application\OnTime.Application.csproj" />
+		<ProjectReference Include="..\OnTime.Contracts\OnTime.Contracts.csproj" />
 		<ProjectReference Include="..\OnTime.Infrastructure\OnTime.Infrastructure.csproj" />
 	</ItemGroup>
 

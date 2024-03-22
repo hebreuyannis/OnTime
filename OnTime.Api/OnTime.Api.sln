@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnTime.Test", "..\OnTime.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnTime.Infrastructure", "..\OnTime.Infrastructure\OnTime.Infrastructure.csproj", "{5AE62CEC-E1F1-4860-B309-52AB61BF1DFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnTime.Application", "..\OnTime.Application\OnTime.Application.csproj", "{09CE7F26-311C-43A2-95B5-3E0BB8669DCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnTime.Application", "..\OnTime.Application\OnTime.Application.csproj", "{09CE7F26-311C-43A2-95B5-3E0BB8669DCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnTime.Contracts", "..\OnTime.Contracts\OnTime.Contracts.csproj", "{6902911B-5266-42D3-97A3-EA5360013CC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{09CE7F26-311C-43A2-95B5-3E0BB8669DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09CE7F26-311C-43A2-95B5-3E0BB8669DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09CE7F26-311C-43A2-95B5-3E0BB8669DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6902911B-5266-42D3-97A3-EA5360013CC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6902911B-5266-42D3-97A3-EA5360013CC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6902911B-5266-42D3-97A3-EA5360013CC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6902911B-5266-42D3-97A3-EA5360013CC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
