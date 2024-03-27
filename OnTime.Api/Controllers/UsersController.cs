@@ -1,7 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OnTime.Application.Users.Commands;
-using OnTime.Application.Users.Queries;
+using OnTime.Application.Users.Commands.CreateUser;
+using OnTime.Application.Users.Queries.GetAllUserQuery;
+using OnTime.Application.Users.Queries.GetUserQuery;
 using OnTime.Contracts.Users;
 using OnTime.Domain.Comon;
 using OnTime.Domain.User;
@@ -12,6 +14,24 @@ namespace OnTime.Api.Controllers;
 [Route("[controller]")]
 public class UsersController(ISender _mediator, ILogger<UsersController> logger) : BaseController
 {
+    /// <summary>
+    /// Get list of users
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet()]
+    [ProducesResponseType(typeof(List<User>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ProblemDetails),(int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> GetAllUSer()
+    {
+        var query = new GetAllUserQuery();
+
+        var result = await _mediator.Send(query);
+
+        return result.Match(
+            Ok,
+            Problem);
+    }
+
 
     /// <summary>
     /// Create user 

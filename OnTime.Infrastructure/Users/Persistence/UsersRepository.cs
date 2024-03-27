@@ -23,4 +23,14 @@ public class UsersRepository(OnTimeDbContext _dbContext) : IUsersRepository
     {
        return await _dbContext.Users.FirstOrDefaultAsync(user => user.Email.Equals(email),cancellationToken);
     }
+
+    public async Task<User?> GetByCredentialAsync(string email, string password, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(user => user.Email.Equals(email) && user.Password.Equals(password), cancellationToken);
+    }
+
+    public async Task<List<User>> GetAllUserAsync(CancellationToken cancellationToken)
+    {
+        return await _dbContext.Users.ToListAsync(cancellationToken);
+    }
 }

@@ -22,10 +22,23 @@ public class BaseController : ControllerBase
         {
             ErrorType.Conflict => StatusCodes.Status409Conflict,
             ErrorType.NotFound => StatusCodes.Status404NotFound,
-            ErrorType.Unauthorized => StatusCodes.Status403Forbidden,
+            ErrorType.Unauthorized => StatusCodes.Status401Unauthorized,
+            ErrorType.Forbidden => StatusCodes.Status403Forbidden,
             _ => StatusCodes.Status500InternalServerError,
         };
 
-        return Problem(statusCode: statusCode, title: error.Description);
+        var problemDetails = ProblemDetailsFactory.CreateProblemDetails(
+                HttpContext,
+                statusCode: statusCode,
+                title: error.Description);
+
+#pragma warning disable CS8619 // La nullabilité des types référence dans la valeur ne correspond pas au type cible.
+        problemDetails.Extensions = error.Metadata ?? problemDetails.Extensions;
+#pragma warning restore CS8619 // La nullabilité des types référence dans la valeur ne correspond pas au type cible.
+
+        return new ObjectResult(problemDetails)
+        {
+            StatusCode = problemDetails.Status
+        };
     }
 }

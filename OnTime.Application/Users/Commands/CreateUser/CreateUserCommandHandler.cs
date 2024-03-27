@@ -4,15 +4,15 @@ using OnTime.Domain.Common.Error;
 using OnTime.Domain.Comon;
 using OnTime.Domain.User;
 
-namespace OnTime.Application.Users.Commands;
+namespace OnTime.Application.Users.Commands.CreateUser;
 
 public class CreateUserCommandHandler(IUsersRepository usersRepository) : IRequestHandler<CreateUserCommand, ErrorOr<Success>>
 {
     public async Task<ErrorOr<Success>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        if(await usersRepository.GetByEmailAsync(request.Email, cancellationToken) is not null) 
+        if (await usersRepository.GetByEmailAsync(request.Email, cancellationToken) is not null)
         {
-            return Error.Conflict(description: $"User with email '{request.Email}' exist");        
+            return Error.Conflict(description: $"User with email '{request.Email}' exist");
         }
 
         var user = new User(
@@ -22,7 +22,7 @@ public class CreateUserCommandHandler(IUsersRepository usersRepository) : IReque
             request.Email,
             request.Password);
 
-        await usersRepository.AddAsync(user,cancellationToken);
+        await usersRepository.AddAsync(user, cancellationToken);
 
         return Result.Success;
     }
