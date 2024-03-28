@@ -7,6 +7,7 @@ using OnTime.Application.Common.Interfaces;
 using OnTime.Infrastructure.Appointments.Persistence;
 using OnTime.Infrastructure.Common.Persistence;
 using OnTime.Infrastructure.Token;
+using OnTime.Infrastructure.UserProvider;
 using OnTime.Infrastructure.Users.Persistence;
 
 namespace OnTime.Infrastructure;
@@ -17,6 +18,8 @@ public static partial class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services
+            .AddHttpContextAccessor()
+            .AddAuthorization()
             .AddAuthentication(configuration)
             .AddPersistence();
         return services;
@@ -28,6 +31,13 @@ public static partial class DependencyInjection
 
         services.AddScoped<IAppointmentsRepository, AppointmentsRepository>();
         services.AddScoped<IUsersRepository, UsersRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddAuthorization(this IServiceCollection services)
+    {
+        services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
 
         return services;
     }

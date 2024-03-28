@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using OnTime.Application.Users.Queries.GetUserByCredentialQuery;
 using OnTime.Application.Users.Queries.Token;
 using OnTime.Contracts.Users;
-using OnTime.Domain.User;
 using System.Net;
 
 namespace OnTime.Api.Controllers;
@@ -15,11 +14,11 @@ public class AuthenticationController(ISender _mediator) : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(GenerateTokenResult), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.Unauthorized)]
-    public async Task<IActionResult> Authenticate(UserAuthenticateRequest request)
+    public async Task<IActionResult> Authenticate(UserAuthenticateRequest request,CancellationToken cancellation)
     {
         var credentialQuery = new GetUserByCredentialQuery(request.email, request.password);
 
-        var userResult = await _mediator.Send(credentialQuery);
+        var userResult = await _mediator.Send(credentialQuery,cancellation);
 
         if (userResult.IsError)
             return Problem(userResult.Errors);
@@ -28,7 +27,7 @@ public class AuthenticationController(ISender _mediator) : BaseController
 
         var queryToken = new GenerateTokenQuery(user.Id, user.FirstName, user.LastName, user.Email, new List<string> { "permission1" }, new List<string> { "role1" });
 
-        var result = await _mediator.Send(queryToken);
+        var result = await _mediator.Send(queryToken,cancellation);
 
         return result.Match(
             Ok,

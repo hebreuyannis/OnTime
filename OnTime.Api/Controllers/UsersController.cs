@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnTime.Application.Users.Commands.CreateUser;
 using OnTime.Application.Users.Queries.GetAllUserQuery;
@@ -21,11 +20,11 @@ public class UsersController(ISender _mediator, ILogger<UsersController> logger)
     [HttpGet()]
     [ProducesResponseType(typeof(List<User>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(ProblemDetails),(int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> GetAllUSer()
+    public async Task<IActionResult> GetAllUSer(CancellationToken cancellation)
     {
         var query = new GetAllUserQuery();
 
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query,cancellation);
 
         return result.Match(
             Ok,
@@ -41,11 +40,11 @@ public class UsersController(ISender _mediator, ILogger<UsersController> logger)
     [HttpPost]
     [ProducesResponseType(typeof(Success), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request,CancellationToken cancellation)
     {
         var command = new CreateUserCommand(request.Firstname,request.Lastname,request.Email,request.Password);
 
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command,cancellation);
 
         return result.Match(
             succes => Created(),
@@ -60,11 +59,11 @@ public class UsersController(ISender _mediator, ILogger<UsersController> logger)
     [HttpGet("{userId:guid}")]
     [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetUser(Guid userId)
+    public async Task<IActionResult> GetUser(Guid userId,CancellationToken cancellation)
     {
         var query = new GetUserQuery(userId);
 
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query,cancellation);
 
         return result.Match(
             Ok,
